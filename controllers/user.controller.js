@@ -5,7 +5,10 @@ import jwt from "jsonwebtoken";
 
 export const register = async (req, res, next) => {
   try {
-    let image_filename = `${req.file.filename}`;
+    let image_filename = "";
+    if (req.file) {
+      image_filename = req.file.filename;
+    }
     const { name, email, password } = req.body;
     if (!name || !email || !password) {
       return next(errorHandler(400, "All fields are required..!"));
@@ -20,7 +23,8 @@ export const register = async (req, res, next) => {
       email,
       password: hashPassword,
       image: image_filename,
-    });
+    })
+    user.password = undefined
     return res.status(201).json({
       message: "User Created Successfully..!",
       success: true,
