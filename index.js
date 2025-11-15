@@ -8,10 +8,13 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 //routes
 import userRoutes from "./routes/user.routes.js";
+import blogRoutes from "./routes/blog.routes.js";
 app.use("/user", userRoutes);
+app.use("/images",express.static("uploads"))
+app.use("/blog",blogRoutes)
 
 // error middleware
 app.use((err, req, res, next) => {
