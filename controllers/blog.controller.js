@@ -15,8 +15,12 @@ export const allBlogs = async (req, res,next) => {
 };
 export const createBlog = async (req, res,next) => {
   try {
+    let image_name
+    if(req.file){
+
+     image_name = `${req.file.filename}`
+    }
     const { title, category, description } = req.body;
-    const image_name = `${req.file.filename}`;
     if (!title || !category || !description) {
       return next(errorHandler(400, "All field are required..!"));
     }
@@ -56,7 +60,12 @@ export const deleteBlog = async (req, res, next) => {
         )
       );
     }
-    fs.unlinkSync(`uploads/${blog.image}`);
+   if (blog.image) {
+      const filePath = `uploads/${blog.image}`;
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+    }
     await blog.deleteOne();
     return res.status(200).json({
       message: "Blog Deleted Successfully",
