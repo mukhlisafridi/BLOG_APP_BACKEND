@@ -3,7 +3,7 @@ import { errorHandler } from "../config/error.js";
 import fs from "fs";
 export const allBlogs = async (req, res,next) => {
   try {
-    const blogs = await Blog.find({}).sort({ createdAt: -1 });
+  const blogs = await Blog.find({}).sort({ createdAt: -1 });
     return res.status(200).json({
       message: "All Blogs",
       success: true,
@@ -12,7 +12,7 @@ export const allBlogs = async (req, res,next) => {
   } catch (error) {
     next(errorHandler(500, error.message));
   }
-};
+}
 export const createBlog = async (req, res,next) => {
   try {
     let image_name
@@ -44,7 +44,6 @@ export const createBlog = async (req, res,next) => {
     return next(errorHandler(500, error.message));
   }
 };
-
 export const deleteBlog = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -75,7 +74,6 @@ export const deleteBlog = async (req, res, next) => {
     return next(errorHandler(500, error.message));
   }
 };
-
 export const singleBlog =async(req,res,next)=>{
     try {
         const {id} = req.params
@@ -94,8 +92,6 @@ export const singleBlog =async(req,res,next)=>{
         next(errorHandler(500,error.message))
     }
 }
-
-
 export const userBlogs =async (req,res,next)=>{
     try {
         const blogs = await Blog.find({"author.id":req.user._id})
