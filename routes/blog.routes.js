@@ -8,6 +8,7 @@ router.post("/create",isAuthentated,upload.single("image"),createBlog)
 router.get("/all-blogs",allBlogs)
 router.get("/user-blogs",isAuthentated,userBlogs)
 router.delete("/delete-blog/:id",isAuthentated,deleteBlog)
+router.get("/user-blog/:id",isAuthentated,userBlogs)
 
 
 export default router
