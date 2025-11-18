@@ -1,6 +1,7 @@
 import { errorHandler } from "../config/error.js";
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
+
 export const isAuthentated = async (req, res, next) => {
   try {
     let token;
@@ -10,13 +11,16 @@ export const isAuthentated = async (req, res, next) => {
     ) {
       token = req.headers.authorization.split(" ")[1];
     }
+
     if (!token) {
-      return next(errorHandler(403, "User Not Authorized..!"));
+      return next(errorHandler(403, "User not authorized!"));
     }
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     req.user = await User.findById(decoded.id).select("-password");
+
     if (!req.user) {
-      return next(errorHandler(401, "User Not Found..!"));
+      return next(errorHandler(401, "User not found!"));
     }
     next();
   } catch (error) {

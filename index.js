@@ -1,22 +1,20 @@
+import "./config/env.js";
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
-dotenv.config();
-// middle-wares
+import userRoutes from "./routes/user.routes.js";
+import blogRoutes from "./routes/blog.routes.js";
+
 const app = express();
 app.use(express.json());
 app.use(cors());
 
 const PORT = process.env.PORT || 3000;
-//routes
-import userRoutes from "./routes/user.routes.js";
-import blogRoutes from "./routes/blog.routes.js";
-app.use("/user", userRoutes);
-app.use("/images",express.static("uploads"))
-app.use("/blog",blogRoutes)
 
-// error middleware
+
+app.use("/user", userRoutes);
+app.use("/blog", blogRoutes);
+
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "internal server error";
@@ -25,8 +23,10 @@ app.use((err, req, res, next) => {
     success: false,
   });
 });
+
+
 connectDB();
 
-app.listen(PORT, (req, res) => {
-  console.log(`PORT IS RUNNING ON ${PORT}`);
+app.listen(PORT, () => {
+  console.log(`SERVER RUNNING ON PORT ${PORT}`);
 });
