@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors({
   origin: [
     'http://localhost:5173',
-    'https://blog-app-frontend-teal.vercel.app'  
+    'https://blog-app-frontend-nine-rose.vercel.app'  
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
