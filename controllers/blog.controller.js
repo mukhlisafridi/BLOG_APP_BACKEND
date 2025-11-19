@@ -20,15 +20,15 @@ export const createBlog = async (req, res, next) => {
    let image_url = "";
     let cloudinary_id = "";
 
-    if (req.file) {
-      image_url = req.file.path;  
-      cloudinary_id = req.file.filename; 
+   if (req.file) {
+      image_url = req.file.path;
+      cloudinary_id = req.file.filename;
     }
 
     const { title, category, description } = req.body;
 
     if (!title || !category || !description) {
-      return next(errorHandler(400, "All fields are required..!"));
+      return next(errorHandler(400, "All fields are required!"));
     }
 
     if (!req.user || !req.user._id) {
@@ -44,22 +44,19 @@ export const createBlog = async (req, res, next) => {
       author: {
         id: req.user._id,
         name: req.user.name,
-        image: req.user.image,
+        image: req.user.image || "",
       },
     });
 
-    console.log("Blog created:", blog);
-
     return res.status(201).json({
-      message: "Blog Created Successfully..!",
+      message: "Blog Created Successfully!",
       success: true,
       blog,
     });
   } catch (error) {
-    console.error("Create Blog Error:", error);
     return next(errorHandler(500, error.message));
   }
-}
+};
 
 export const deleteBlog = async (req, res, next) => {
   try {
@@ -79,7 +76,7 @@ export const deleteBlog = async (req, res, next) => {
       try {
         await cloudinary.uploader.destroy(blog.cloudinary_id);
       } catch (error) {
-        console.log("Cloudinary deletion error:", error);
+        
       }
     }
 
@@ -101,7 +98,7 @@ export const singleBlog = async (req, res, next) => {
 
     if (!blog) {
       return res.status(404).json({
-        message: "This Blog Is Not Found..!",
+        message: "This Blog Is Not Found!",
         success: false,
       });
     }

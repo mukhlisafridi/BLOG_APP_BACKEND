@@ -8,20 +8,20 @@ const storage = new CloudinaryStorage({
   params: {
     folder: "blogs",
     allowed_formats: ["jpg", "png", "jpeg", "webp"],
-    public_id: (req, file) => {
-      const publicId = `blog-${Date.now()}`;
-      return publicId;
-    },
-    transformation: [{ quality: "auto" }], 
+    public_id: (req, file) => `blog-${Date.now()}`,
+    transformation: [
+      { 
+        quality: "auto:best",  
+        fetch_format: "auto"  
+      }
+    ],
   },
 });
-
-cloudinary.api.ping()
 
 export const upload = multer({
   storage,
   limits: {
-    fileSize: 5 * 1024 * 1024, 
+    fileSize: 5 * 1024 * 1024,
   },
   fileFilter: (req, file, cb) => {
     if (file.mimetype.startsWith("image/")) {
@@ -31,4 +31,3 @@ export const upload = multer({
     }
   },
 });
-

@@ -2,28 +2,30 @@ import mongoose from "mongoose";
 
 const blogSchema = new mongoose.Schema(
   {
-    title: {
-      type: String,
-      required: true,
+    title: { 
+      type: String, 
+      required: true 
     },
-    image: {
+    image: { 
       type: String,
+      default: "" 
     },
     cloudinary_id: {
       type: String,
+      default: ""
     },
-    category: {
-      type: String,
-      required: true,
+    category: { 
+      type: String, 
+      required: true 
     },
-    description: {
-      type: String,
-      required: true,
+    description: { 
+      type: String, 
+      required: true 
     },
     author: {
-      id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+      id: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "User" 
       },
       name: {
         type: String,
@@ -31,6 +33,7 @@ const blogSchema = new mongoose.Schema(
       },
       image: {
         type: String,
+        default: ""
       },
     },
   },
